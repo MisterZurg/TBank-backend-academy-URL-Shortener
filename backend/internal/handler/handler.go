@@ -7,7 +7,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"net/http"
 
-	"github.com/MisterZurg/TBank_URL_shortener/backend/internal/service"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/service"
 )
 
 // This is a simple interface which specifies echo.Route addition functions which

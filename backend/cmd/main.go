@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/MisterZurg/TBank_URL_shortener/backend/config"
-	"github.com/MisterZurg/TBank_URL_shortener/backend/internal/handler"
-	"github.com/MisterZurg/TBank_URL_shortener/backend/internal/repository"
-	"github.com/MisterZurg/TBank_URL_shortener/backend/internal/service"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/config"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/handler"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/repository"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/service"
 )
 
 func main() {

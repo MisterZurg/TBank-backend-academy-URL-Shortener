@@ -5,7 +5,7 @@ import (
 
 	"github.com/caarlos0/env/v11"
 
-	"github.com/MisterZurg/TBank_URL_shortener/backend/urlerrors"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/urlerrors"
 )
 
 // Config — is an initial configuration params for deploying backend.

@@ -8,7 +8,7 @@ import (
 	"github.com/lithammer/shortuuid"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/MisterZurg/TBank_URL_shortener/backend/urlerrors"
+	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/urlerrors"
 )
 
 // URLRepository — ...
