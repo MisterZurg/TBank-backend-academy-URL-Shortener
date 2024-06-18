@@ -50,7 +50,6 @@ func (ur *URLRepository) PostURL(url string) (string, error) {
 	var shortURL string
 	ctx := context.Background()
 
-	// log.Printf("%s", url)
 	shortURL = shortuuid.NewWithNamespace(url)
 
 	// Zero expiration means the key has no expiration time.

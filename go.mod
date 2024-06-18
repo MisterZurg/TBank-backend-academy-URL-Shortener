@@ -5,6 +5,7 @@ go 1.22
 require (
 	github.com/ClickHouse/clickhouse-go/v2 v2.25.0
 	github.com/caarlos0/env/v11 v11.0.1
+	github.com/h2non/gock v1.2.0
 	github.com/labstack/echo-contrib v0.17.1
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/labstack/gommon v0.4.2
@@ -25,7 +26,6 @@ require (
 	github.com/go-faster/errors v0.7.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/h2non/gock v1.2.0 // indirect
 	github.com/h2non/parth v0.0.0-20190131123155-b4df798d6542 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -39,7 +39,6 @@ require (
 	github.com/prometheus/procfs v0.13.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
-	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.opentelemetry.io/otel v1.27.0 // indirect

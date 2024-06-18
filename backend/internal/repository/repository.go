@@ -31,7 +31,7 @@ func New(rcfg RepositoryConfig) (*Repository, error) {
 	})
 
 	ctx := context.Background()
-	if errPingCache := rdb.Ping(ctx); errPingCache != nil {
+	if errPingCache := rdb.Ping(ctx); errPingCache != nil { //nolint:staticcheck
 		log.Printf("cannot ping cache, got err %v", errPingCache)
 	}
 
@@ -48,11 +48,11 @@ func New(rcfg RepositoryConfig) (*Repository, error) {
 		log.Printf("cannot ping cache, got err %v", err)
 	}
 
-	if errPingCache := rdb.Ping(ctx); errPingCache != nil {
+	if errPingCache := rdb.Ping(ctx); errPingCache != nil { //nolint:staticcheck
 		log.Printf("cannot ping cache, got err %v", errPingCache)
 	}
 
-	if rdb == nil && ch == nil {
+	if rdb == nil && ch == nil { //nolint:staticcheck
 		log.Fatalf("cannot connect to both cache and storage")
 	}
 

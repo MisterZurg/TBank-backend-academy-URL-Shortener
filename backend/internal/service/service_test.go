@@ -92,7 +92,7 @@ func (suite *ServiceSuite) TestShortenURL() {
 			rec := httptest.NewRecorder()
 			c := suite.e.NewContext(req, rec)
 
-			suite.service.ShortenURL(c)
+			suite.service.ShortenURL(c) //nolint:errcheck //service test
 
 			suite.Require().Equal(test.status, c.Response().Status)
 		})
@@ -120,7 +120,7 @@ func (suite *ServiceSuite) TestGetURL() {
 			c.SetParamNames("short_url")
 			c.SetParamValues(test.url)
 
-			suite.service.GetURL(c)
+			suite.service.GetURL(c) //nolint:errcheck //service test
 
 			suite.Require().Equal(test.status, c.Response().Status)
 		})

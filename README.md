@@ -92,16 +92,12 @@ Accept: */*
 
 ### Используемые зависимости и тулы
 - [echo](https://github.com/labstack/echo) high performance, minimalist Go web framework. Task included by default
-- [oapi-codege](https://github.com/deepmap/oapi-codegen) Client and Server Code Generator from the oapi.json
 - [sqlx](https://github.com/jmoiron/sqlx) extension on go's standard database/sql
-- [pgx](https://github.com/jackc/pgx) pure Go driver and toolkit for PostgreSQL
-- [kafka-go](https://github.com/segmentio/kafka-go) low and high level APIs for interacting with Kafka
+- [clickhouse-go](https://github.com/ClickHouse/clickhouse-go) driver for ClickHouse
 - [go-redis](https://github.com/redis/go-redis) redis client for Go
 - [goose](https://github.com/pressly/goose) database migration tool
 - [env](https://github.com/caarlos0/env) simple and zero-dependencies library to parse environment variables into structs
 - [shortuuid](https://github.com/lithammer/shortuuid) generates concise, unambiguous, URL-safe UUIDs that are used for shorten urls
-- [gock]
-- [redismock]
 
 
 ### Откуда бралось вдохновение
