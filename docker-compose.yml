@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+  # I have no clue, but https://medium.com/@SabujJanaCodes/hands-on-haproxy-loadbalancing-with-go-and-docker-compose-part-1-71ce6551f601
+  #  tbank-haproxy:
+  #    image: haproxy
+  #    ports:
+  #      - "8100:8100"
+  #    volumes:
+  #      - ./haproxy:/usr/local/etc/haproxy
+
+  tbank-redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  tbank-clickhouse:
+    container_name: tbank-clickhouse
+    image: clickhouse/clickhouse-server:latest
+    environment:
+      CLICKHOUSE_USER: "oleg"
+      CLICKHOUSE_PASSWORD: "tinkoff"
+    ports:
+      - "18123:8123"
+      - "19000:9000"
+    volumes:
+      - "./backend/migrations/20240615193939_short_to_long.sql:/docker-entrypoint-initdb.d/20240615193939_short_to_long.sql"
+
+  tbank-prometheus:
+    image: prom/prometheus:latest
+    container_name: tbank-prometheus
+    #restart: unless-stopped
+    volumes:
+      - ./backend/internal/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    expose:
+      - "9090:9090"
+
+  tbank-grafana:
+    image: grafana/grafana-oss:latest
+    container_name: tbank-grafana
+    ports:
+      - "3000:3000"
+#    volumes:
+#      - grafana-data:/var/lib/grafana
+    # restart: unless-stopped
