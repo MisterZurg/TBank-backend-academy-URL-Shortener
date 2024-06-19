@@ -4,7 +4,7 @@
 [![](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/MisterZurg/TBank_URL_shortener)
 
 <p align="center"> 
-  <img src="./img.png" alt="Очень всратый гофер." />
+  <img src="static/t-gopher.png" alt="Очень всратый гофер." />
 </p>
 
 > [!IMPORTANT]
@@ -47,16 +47,22 @@ RPS
 оващеХранилище
 
 
-### Как какать?
-```shell
-make todo
-```
-
 ### Архитектура сервиса
-Балансировка на уровне кубера
-Фронт продаем клиенту
-Кеш
-Бд
+#### DockerCompose Infra
+![DockerCompose Infra](static/dc-arch.png)
+
+> [!CAUTION]
+> Балансировка на уровне кубера
+> Фронт продаем клиенту
+
+```shell
+# start DockerCompose Infra
+make up
+```
+```shell
+# stop DockerCompose Infra
+make down
+```
 
 ### Контракты можно тестировать в .http
 ```http request
@@ -66,7 +72,7 @@ Content-Type: application/json
 Accept: */*
 
 {
-  "long_url": "https://echo.labstack.com"
+  "long_url": "<YOUR_URL>"
 }
 
 # Returns OK (200), with the generated short_url in data
@@ -83,7 +89,10 @@ Accept: */*
 
 ### Database Schema
 ```mermaid
-
+CAR {
+    string short_url
+    string long_url
+}
 ```
 
 
@@ -92,7 +101,6 @@ Accept: */*
 
 ### Используемые зависимости и тулы
 - [echo](https://github.com/labstack/echo) high performance, minimalist Go web framework. Task included by default
-- [sqlx](https://github.com/jmoiron/sqlx) extension on go's standard database/sql
 - [clickhouse-go](https://github.com/ClickHouse/clickhouse-go) driver for ClickHouse
 - [go-redis](https://github.com/redis/go-redis) redis client for Go
 - [goose](https://github.com/pressly/goose) database migration tool
