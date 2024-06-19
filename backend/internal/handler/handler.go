@@ -1,13 +1,14 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo-contrib/echoprometheus"
 	"github.com/labstack/echo/v4"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	"net/http"
 
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/service"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/service"
 )
 
 var (
@@ -23,7 +24,7 @@ func RegisterHandlers(svc *service.Service) *echo.Echo {
 	e.Use(echoprometheus.NewMiddleware("myapp"))            // adds middleware to gather metrics
 	e.GET("/short-it/metrics", echoprometheus.NewHandler()) // adds route to serve gathered metrics
 
-	e.GET("/sss", func(c echo.Context) error {
+	e.GET("/hello-world", func(c echo.Context) error {
 		opsProcessed.Inc()
 		return c.String(http.StatusOK, "Hello, World!")
 	})

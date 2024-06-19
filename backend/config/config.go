@@ -5,17 +5,12 @@ import (
 
 	"github.com/caarlos0/env/v11"
 
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/urlerrors"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/urlerrors"
 )
 
 // Config — is an initial configuration params for deploying backend.
 type Config struct {
-	// TODO: Postgre
-	// DBUser     string `env:"POSTGRES_USER" envDefault:"postgres"`
-	// DBPassword string `env:"POSTGRES_PASSWORD" envDefault:"password"`
-	// DBName     string `env:"POSTGRES_DB" envDefault:"db"`
-	// DBHost     string `env:"POSTGRES_HOST" envDefault:"localhost"` // "localhost"`
-	// DBPort     string `env:"POSTGRES_PORT" envDefault:"5432"`
+	APPPort string `env:"APP_PORT" envDefault:"1323"`
 	// TODO: Redis
 	REDISHost string `env:"REDIS_HOST" envDefault:"localhost"`
 	REDISPort string `env:"REDIS_PORT" envDefault:"6379"`
@@ -37,6 +32,11 @@ func New() (*Config, error) {
 		}
 	}
 	return cfg, nil
+}
+
+// GetAppAddress  — ...
+func (cfg *Config) GetAppAddress() string {
+	return fmt.Sprintf(":%s", cfg.APPPort)
 }
 
 // GetRedisDSN — ...

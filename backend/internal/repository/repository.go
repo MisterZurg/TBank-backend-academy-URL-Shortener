@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/labstack/gommon/log"
 	"github.com/redis/go-redis/v9"
@@ -11,7 +12,7 @@ type Repository struct {
 	*URLRepository
 }
 
-type RepositoryConfig struct {
+type Config struct {
 	RedisDSN string
 	CH       ClickHouseConfig
 }
@@ -23,7 +24,7 @@ type ClickHouseConfig struct {
 	Password      string
 }
 
-func New(rcfg RepositoryConfig) (*Repository, error) {
+func New(rcfg Config) (*Repository, error) {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     rcfg.RedisDSN,
 		Password: "", // no password set

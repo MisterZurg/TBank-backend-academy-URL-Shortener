@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/config"
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/handler"
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/repository"
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/service"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/config"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/handler"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/repository"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/service"
 )
 
 func main() {
 	cfg, _ := config.New()
 
-	repo, _ := repository.New(repository.RepositoryConfig{
+	repo, _ := repository.New(repository.Config{
 		RedisDSN: cfg.GetRedisDSN(),
 		CH: repository.ClickHouseConfig{
 			ClickHouseDSN: cfg.GetClickHouseDSN(),
@@ -24,5 +24,5 @@ func main() {
 
 	e := handler.RegisterHandlers(svc)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(cfg.GetAppAddress()))
 }

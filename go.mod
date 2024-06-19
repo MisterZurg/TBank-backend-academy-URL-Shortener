@@ -1,4 +1,4 @@
-module github.com/MisterZurg/TBank_backend_academy_URL_Shortener
+module github.com/MisterZurg/TBank-backend-academy-URL-Shortener
 
 go 1.22
 

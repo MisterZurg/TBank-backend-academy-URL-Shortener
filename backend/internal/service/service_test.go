@@ -11,8 +11,8 @@ import (
 	"github.com/lithammer/shortuuid"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/internal/service"
-	"github.com/MisterZurg/TBank_backend_academy_URL_Shortener/backend/urlerrors"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/service"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/urlerrors"
 )
 
 type MockRepository struct {

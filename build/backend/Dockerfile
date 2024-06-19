@@ -10,15 +10,13 @@ COPY ../../go.sum ./
 RUN go mod download && go mod verify
 
 # copy app logic
-COPY ../cmd ./cmd
-COPY ../config ./internal
-COPY ../urlerrors ./urlerrors
-
+COPY ../../backend/cmd ./cmd
+COPY ../../backend/config ./config
+COPY ../../backend/internal ./internal
+COPY ../../backend/urlerrors ./urlerrors
 
 RUN mkdir -p /usr/local/bin/
-
 RUN go mod tidy
-
 RUN go build -v -o /usr/local/bin/app ./cmd
 
 CMD ["app"]
