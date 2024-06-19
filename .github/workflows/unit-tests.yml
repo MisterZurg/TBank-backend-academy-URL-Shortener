@@ -31,4 +31,4 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: MisterZurg/TBank_URL_shortener
+          slug: MisterZurg/TBank-backend-academy-URL-Shortener
