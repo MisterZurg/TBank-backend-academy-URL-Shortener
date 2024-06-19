@@ -1,7 +1,7 @@
 # Сервис коротких ссылок aka URL shortener
 [![Lint Status](https://img.shields.io/github/actions/workflow/status/MisterZurg/TBank-backend-academy-URL-Shortener/golangci-lint.yml?branch=main&style=for-the-badge)](https://github.com/MisterZurg/TBank-backend-academy-URL-Shortener/actions?workflow=golangci-lint)
 [![Coverage Status](https://img.shields.io/codecov/c/gh/github.com/MisterZurg/TBank_URL_shortener.svg?logo=codecov&style=for-the-badge)](https://codecov.io/gh/MisterZurg/TBank_URL_shortener)
-[![](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/MisterZurg/TBank_URL_shortener)
+[![](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/MisterZurg/TBank-backend-academy-URL-Shortener)
 
 <p align="center"> 
   <img src="static/t-gopher.png" alt="Очень всратый гофер." />
@@ -89,20 +89,32 @@ Accept: */*
 
 ### Database Schema
 ```mermaid
-CAR {
-    string short_url
-    string long_url
-}
+erDiagram
+    short_to_long {
+        string short_url
+        string long_url
+    }
 ```
 
-
 ### Shortening Algorithm
-- shortuuid
+
+> [!IMPORTANT]
+> shortuuid — generates UUIDs using google/uuid and then translate it to base57 using lowercase and uppercase letters and digits, 
+> and removing similar-looking characters such as l, 1, I, O and 0.
+
+### Собираемые Метрики
+- tbank_processed_ops_total — The total number of processed events
+- tbank_url_shortener_usage_redirect — The number of redirects
+- tbank_url_shortener_usage_create — The number of short urls creation
+- tbank_url_shortener_cache_usage — The number of cache usage
+- tbank_url_shortener_db_usage — The number of db usage
+- tbank_url_shortener_errors_total — The number of errors
 
 ### Используемые зависимости и тулы
 - [echo](https://github.com/labstack/echo) high performance, minimalist Go web framework. Task included by default
 - [clickhouse-go](https://github.com/ClickHouse/clickhouse-go) driver for ClickHouse
 - [go-redis](https://github.com/redis/go-redis) redis client for Go
+- [prometheus](https://prometheus.io/docs/guides/go-application/) open-source systems monitoring and alerting toolkit
 - [goose](https://github.com/pressly/goose) database migration tool
 - [env](https://github.com/caarlos0/env) simple and zero-dependencies library to parse environment variables into structs
 - [shortuuid](https://github.com/lithammer/shortuuid) generates concise, unambiguous, URL-safe UUIDs that are used for shorten urls
