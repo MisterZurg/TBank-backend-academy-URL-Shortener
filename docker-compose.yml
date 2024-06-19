@@ -1,27 +1,50 @@
 version: "3.8"
 services:
   # I have no clue, but https://medium.com/@SabujJanaCodes/hands-on-haproxy-loadbalancing-with-go-and-docker-compose-part-1-71ce6551f601
-  #  tbank-haproxy:
-  #    image: haproxy
-  #    ports:
-  #      - "8100:8100"
-  #    volumes:
-  #      - ./haproxy:/usr/local/etc/haproxy
+  tbank-url-shortener:
+    container_name: tbank-url-shortener
+    image: tbank_url_shortener:0.1.0
+    environment:  # For App Config
+      REDIS_HOST: "tbank-redis" # redis container name
+      REDIS_PORT: "6379"        #
+
+      CLICKHOUSE_USER: "oleg"
+      CLICKHOUSE_PASSWORD: "tinkoff"
+      CLICKHOUSE_DB: "tbank_academy"
+      CLICKHOUSE_HOST: "tbank-clickhouse"
+      CLICKHOUSE_PORT: "19000"
+    ports:
+      - "1323:1323"
+    expose:
+      - "1323:1323"
+    networks:
+      - tbank-network
+    depends_on:
+      - tbank-clickhouse
+      - tbank-redis
 
   tbank-redis:
+    container_name: "tbank-redis"
     image: redis
     ports:
       - "6379:6379"
+    networks:
+      - tbank-network
 
   tbank-clickhouse:
-    container_name: tbank-clickhouse
+    container_name: "tbank-clickhouse"
     image: clickhouse/clickhouse-server:latest
     environment:
       CLICKHOUSE_USER: "oleg"
       CLICKHOUSE_PASSWORD: "tinkoff"
+      CLICKHOUSE_DB: "tbank_academy"
+      CLICKHOUSE_HOST: "tbank-clickhouse"
+      CLICKHOUSE_PORT: "19000"
     ports:
       - "18123:8123"
       - "19000:9000"
+    networks:
+      - tbank-network
     volumes:
       - "./backend/migrations/20240615193939_short_to_long.sql:/docker-entrypoint-initdb.d/20240615193939_short_to_long.sql"
 
@@ -40,12 +63,21 @@ services:
       - '--web.enable-lifecycle'
     expose:
       - "9090:9090"
+    networks:
+      - tbank-network
 
   tbank-grafana:
     image: grafana/grafana-oss:latest
     container_name: tbank-grafana
     ports:
       - "3000:3000"
+    networks:
+      - tbank-network
 #    volumes:
 #      - grafana-data:/var/lib/grafana
     # restart: unless-stopped
+
+
+networks:
+  tbank-network:
+    driver: bridge

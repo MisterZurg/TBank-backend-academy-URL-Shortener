@@ -32,11 +32,10 @@ func New(rcfg Config) (*Repository, error) {
 	})
 
 	ctx := context.Background()
-	if errPingCache := rdb.Ping(ctx); errPingCache != nil { //nolint:staticcheck
+	if errPingCache := rdb.Ping(ctx).Err(); errPingCache != nil { //nolint:staticcheck
 		log.Printf("cannot ping cache, got err %v", errPingCache)
 	}
 
-	// TODO: connect to DB here
 	ch, err := clickhouse.Open(&clickhouse.Options{
 		Addr: []string{rcfg.CH.ClickHouseDSN},
 		Auth: clickhouse.Auth{
@@ -49,11 +48,11 @@ func New(rcfg Config) (*Repository, error) {
 		log.Printf("cannot ping cache, got err %v", err)
 	}
 
-	if errPingCache := rdb.Ping(ctx); errPingCache != nil { //nolint:staticcheck
-		log.Printf("cannot ping cache, got err %v", errPingCache)
+	if errPingDB := ch.Ping(ctx); errPingDB != nil { //nolint:staticcheck
+		log.Printf("cannot ping db, got err %v", errPingDB)
 	}
 
-	if rdb == nil && ch == nil { //nolint:staticcheck
+	if rdb.Ping(ctx).Err() != nil && ch.Ping(ctx) != nil { //nolint:staticcheck
 		log.Fatalf("cannot connect to both cache and storage")
 	}
 

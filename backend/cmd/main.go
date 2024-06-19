@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/labstack/gommon/log"
+
 	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/config"
 	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/handler"
 	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/repository"
@@ -8,9 +10,12 @@ import (
 )
 
 func main() {
-	cfg, _ := config.New()
+	cfg, err := config.New()
+	if err != nil {
+		log.Fatal("Fuck: Cannot get Config")
+	}
 
-	repo, _ := repository.New(repository.Config{
+	repo, err := repository.New(repository.Config{
 		RedisDSN: cfg.GetRedisDSN(),
 		CH: repository.ClickHouseConfig{
 			ClickHouseDSN: cfg.GetClickHouseDSN(),
@@ -19,6 +24,9 @@ func main() {
 			Password:      cfg.CHPassword,
 		},
 	})
+	if err != nil {
+		log.Fatalf("Fuck: Cannot get repo %e", err)
+	}
 
 	svc := service.New(repo)
 

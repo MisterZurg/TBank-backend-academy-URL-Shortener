@@ -1,3 +1,6 @@
+###################################################################################
+### Docker CumPose
+###################################################################################
 POST localhost:1323/short-it HTTP/1.1
 Host: localhost:1323
 Content-Type: application/json
@@ -13,3 +16,7 @@ GET localhost:1323/short-it/pGXJcr2LHxghNf3GDSFRpb HTTP/1.1
 Host: localhost:1323
 Content-Type: application/json
 Accept: */*
+
+###################################################################################
+### How does picking up a Kubernetes cluster help me pick up a Kubernetes cluster?
+###################################################################################

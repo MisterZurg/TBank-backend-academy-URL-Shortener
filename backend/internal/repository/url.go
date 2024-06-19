@@ -47,24 +47,29 @@ func (ur *URLRepository) GetURL(shortURL string) (string, error) {
 
 // PostURL — ...
 func (ur *URLRepository) PostURL(url string) (string, error) {
+	log.Printf("POST URL REPO")
+
 	var shortURL string
 	ctx := context.Background()
 
 	shortURL = shortuuid.NewWithNamespace(url)
+
+	log.Printf("POST URL REPO 2")
 
 	// Zero expiration means the key has no expiration time.
 	err := ur.cache.Set(ctx, shortURL, url, 0).Err()
 	if err != nil {
 		return "", err
 	}
+	log.Printf("POST URL REPO 3")
 
-	row := ur.db.QueryRow(
-		ctx,
-		`SELECT * FROM tbank_academy.short_to_long long_url WHERE short_url == $1`,
-		shortURL,
-	)
-	if row != nil {
-		log.Printf("УЖЕ СУЩЕСТВУЕТ %s", shortURL)
-	}
+	//row := ur.db.QueryRow(
+	//	ctx,
+	//	`SELECT * FROM tbank_academy.short_to_long long_url WHERE short_url == $1`,
+	//	shortURL,
+	//)
+	//if row != nil {
+	//	log.Printf("УЖЕ СУЩЕСТВУЕТ %s", shortURL)
+	//}
 	return shortURL, nil
 }

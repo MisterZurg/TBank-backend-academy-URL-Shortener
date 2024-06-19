@@ -15,11 +15,11 @@ type Config struct {
 	REDISHost string `env:"REDIS_HOST" envDefault:"localhost"`
 	REDISPort string `env:"REDIS_PORT" envDefault:"6379"`
 	// TODO: ClickHouse
-	CHUser     string `env:"CH_USER" envDefault:"oleg"`
-	CHPassword string `env:"CH_PASSWORD" envDefault:"tinkoff"`
-	CHDBName   string `env:"CH_DB" envDefault:"tbank_academy"`
-	CHHost     string `env:"CH_HOST" envDefault:"localhost"`
-	CHPort     string `env:"CH_PORT" envDefault:"19000"`
+	CHUser     string `env:"CLICKHOUSE_USER" envDefault:"oleg"`
+	CHPassword string `env:"CLICKHOUSE_PASSWORD" envDefault:"tinkoff"`
+	CHDBName   string `env:"CLICKHOUSE_DB" envDefault:"tbank_academy"`
+	CHHost     string `env:"CLICKHOUSE_HOST" envDefault:"localhost"`
+	CHPort     string `env:"CLICKHOUSE_PORT" envDefault:"19000"`
 }
 
 func New() (*Config, error) {

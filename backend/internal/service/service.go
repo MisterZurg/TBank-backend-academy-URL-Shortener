@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -36,16 +37,17 @@ type PostURLResponse struct {
 func (s *Service) ShortenURL(c echo.Context) error {
 	params := new(PostURLParams)
 	if err := c.Bind(&params); err != nil {
-		return c.JSON(http.StatusBadRequest, nil)
+
+		return c.JSON(http.StatusBadRequest, "SUKA")
 	}
 
 	if params.LongURL == "" {
-		return c.JSON(http.StatusBadRequest, nil)
+		return c.JSON(http.StatusBadRequest, "BLEAD")
 	}
-
+	log.Printf("POST URL")
 	short, err := s.repo.PostURL(params.LongURL)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, nil)
+		return c.JSON(http.StatusBadRequest, "NAHUI")
 	}
 
 	return c.String(http.StatusOK, short)
