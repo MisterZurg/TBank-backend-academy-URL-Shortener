@@ -53,7 +53,7 @@ services:
     container_name: tbank-prometheus
     #restart: unless-stopped
     volumes:
-      - ./backend/internal/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./build/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 #      - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -73,8 +73,8 @@ services:
       - "3000:3000"
     networks:
       - tbank-network
-#    volumes:
-#      - grafana-data:/var/lib/grafana
+    volumes:
+      - "./build/grafana/provisioning/:/etc/grafana/provisioning/"
     # restart: unless-stopped
 
 

@@ -1,17 +1,20 @@
 package service
 
 import (
-	"log"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/internal/prometheus"
+	"github.com/MisterZurg/TBank-backend-academy-URL-Shortener/backend/urlerrors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
+// Repository — ...
 type Repository interface {
 	PostURL(url string) (string, error)
 	GetURL(shortURL string) (string, error)
 }
 
+// Service — ...
 type Service struct {
 	repo Repository
 }
@@ -34,7 +37,10 @@ type PostURLResponse struct {
 	ShortURL string `json:"short_url,omitempty"`
 }
 
+// ShortenURL — ...
 func (s *Service) ShortenURL(c echo.Context) error {
+	prometheus.CreateURLS.Inc()
+
 	params := new(PostURLParams)
 	if err := c.Bind(&params); err != nil {
 
@@ -42,27 +48,32 @@ func (s *Service) ShortenURL(c echo.Context) error {
 	}
 
 	if params.LongURL == "" {
-		return c.JSON(http.StatusBadRequest, "BLEAD")
+		prometheus.TotalErrors.Inc()
+		return c.JSON(http.StatusBadRequest, urlerrors.ErrEmptyURL)
 	}
-	log.Printf("POST URL")
 	short, err := s.repo.PostURL(params.LongURL)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, "NAHUI")
+		prometheus.TotalErrors.Inc()
+		return c.JSON(http.StatusBadRequest, urlerrors.ErrInternalAppError)
 	}
 
 	return c.String(http.StatusOK, short)
 }
 
+// GetURL — ...
 func (s *Service) GetURL(c echo.Context) error {
+	prometheus.CreateURLS.Inc()
+
 	shorten := c.Param("short_url")
-	// log.Printf("svc got param short_url :> %s", shorten)
 	if shorten == "" {
-		return c.JSON(http.StatusBadRequest, nil)
+		prometheus.TotalErrors.Inc()
+		return c.JSON(http.StatusBadRequest, urlerrors.ErrEmptyURL)
 	}
 
 	redirectURL, err := s.repo.GetURL(shorten)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, nil)
+		prometheus.TotalErrors.Inc()
+		return c.JSON(http.StatusNotFound, urlerrors.ErrCannotFindURL)
 	}
 	// c.Response().Header().Set("HX-Redirect", redirectURL)
 	return c.Redirect(http.StatusFound, redirectURL)

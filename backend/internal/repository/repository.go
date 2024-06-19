@@ -8,15 +8,18 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Repository — ...
 type Repository struct {
 	*URLRepository
 }
 
+// Config — ...
 type Config struct {
 	RedisDSN string
 	CH       ClickHouseConfig
 }
 
+// ClickHouseConfig — ...
 type ClickHouseConfig struct {
 	ClickHouseDSN string
 	DBName        string
