@@ -1,6 +1,6 @@
 # Сервис коротких ссылок aka URL shortener
 [![Lint Status](https://img.shields.io/github/actions/workflow/status/MisterZurg/TBank-backend-academy-URL-Shortener/golangci-lint.yml?branch=main&style=for-the-badge)](https://github.com/MisterZurg/TBank-backend-academy-URL-Shortener/actions?workflow=golangci-lint)
-[![Coverage Status](https://img.shields.io/codecov/c/gh/github.com/MisterZurg/TBank_URL_shortener.svg?logo=codecov&style=for-the-badge)](https://codecov.io/gh/MisterZurg/TBank_URL_shortener)
+[![Coverage Status](https://img.shields.io/codecov/c/gh/MisterZurg/TBank-backend-academy-URL-Shortener.svg?logo=codecov&style=for-the-badge)](https://codecov.io/gh/MisterZurg/TBank_URL_shortener)
 [![](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/github.com/MisterZurg/TBank-backend-academy-URL-Shortener)
 
 <p align="center"> 
@@ -34,7 +34,7 @@
 > - Должны ли ссылки существовать вечно? Если нет то какой их lifespan?
 > - Должны ли собираться метрики с переходов по ссылкам? Если да то какие?
 > - Должен ли каждый пользователь получать уникальную сокращённую ссылку на ресурс?
-> - Должна ли присутствовать фича создания кастомного url? 
+> - Должна ли присутствовать фича создания кастомного url?
 
 #### Экономим деньги бизнесс
 > [!TIP]
@@ -63,6 +63,21 @@ make up
 # stop DockerCompose Infra
 make down
 ```
+
+#### K8S Infra
+![K8s Infra](static/k8s-arch.png)
+> [!WARNING]
+> Kind не может в LoadBalancer
+
+#### Cloud Infra?
+> [!WARNING]
+> HashiCorp moment?
+> We have to hire CloudOps and add
+> - vault
+> - consul
+> - waypoint
+> - boundary
+> - terraform (have to write terraform modules for each cloud provider)
 
 ### Контракты можно тестировать в .http
 ```http request
@@ -99,7 +114,7 @@ erDiagram
 ### Shortening Algorithm
 
 > [!IMPORTANT]
-> shortuuid — generates UUIDs using google/uuid and then translate it to base57 using lowercase and uppercase letters and digits, 
+> shortuuid — generates UUIDs using google/uuid and then translate it to base57 using lowercase and uppercase letters and digits,
 > and removing similar-looking characters such as l, 1, I, O and 0.
 
 ### Собираемые Метрики
@@ -121,6 +136,7 @@ erDiagram
 
 
 ### Откуда бралось вдохновение
+- [Олег Бунин Highload](https://www.linkedin.com/in/olegbunin/)
 - [Tiny URL - System Design Interview Question (URL shortener)](https://www.youtube.com/watch?v=Cg3XIqs_-4c)
 - [System Design : Scalable URL shortener service like TinyURL](https://medium.com/@sandeep4.verma/system-design-scalable-url-shortener-service-like-tinyurl-106f30f23a82)
 - [Учимся разрабатывать REST API на Go на примере сокращателя ссылок](https://habr.com/ru/companies/selectel/articles/747738/)
