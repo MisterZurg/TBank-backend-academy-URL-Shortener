@@ -3,7 +3,9 @@ services:
   # I have no clue, but https://medium.com/@SabujJanaCodes/hands-on-haproxy-loadbalancing-with-go-and-docker-compose-part-1-71ce6551f601
   tbank-url-shortener:
     container_name: tbank-url-shortener
-    image: tbank_url_shortener:0.1.0
+    build:
+      dockerfile: ./build/backend/Dockerfile
+    #    image: # tbank_url_shortener:0.1.0
     environment:  # For App Config
       REDIS_HOST: "tbank-redis" # redis container name
       REDIS_PORT: "6379"        #

@@ -28,7 +28,14 @@ Accept: */*
   "long_url": "https://www.tbank.ru/"
 }
 
-###
+### Попробуем Гетнуть Мистера Эмиля
+
+GET localhost:1323/short-it/litleleprikon HTTP/1.1
+Host: localhost:1323
+Content-Type: application/json
+Accept: */*
+
+
 
 ###################################################################################
 ### How does picking up a Kubernetes cluster help me pick up a Kubernetes cluster?

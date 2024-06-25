@@ -3,6 +3,9 @@
 [![Coverage Status](https://img.shields.io/codecov/c/gh/MisterZurg/TBank-backend-academy-URL-Shortener.svg?logo=codecov&style=for-the-badge)](https://codecov.io/gh/MisterZurg/TBank_URL_shortener)
 [![](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://pkg.go.dev/github.com/MisterZurg/TBank-backend-academy-URL-Shortener)
 
+[//]: # ([![Go Report Card]&#40;https://goreportcard.com/badge/MisterZurg/TBank-backend-academy-URL-Shortener?style=for-the-badge&#41;]&#40;https://goreportcard.com/report/MisterZurg/TBank-backend-academy-URL-Shortener&#41;)
+
+
 <p align="center"> 
   <img src="static/t-gopher.png" alt="Очень всратый гофер." />
 </p>
@@ -31,23 +34,45 @@
 
 > [!WARNING]
 > #### Вопросы?
+> - Какова ожидается нагрузка на сервис в месяц (сколько ссылок)?
 > - Должны ли ссылки существовать вечно? Если нет то какой их lifespan?
 > - Должны ли собираться метрики с переходов по ссылкам? Если да то какие?
 > - Должен ли каждый пользователь получать уникальную сокращённую ссылку на ресурс?
 > - Должна ли присутствовать фича создания кастомного url?
+> - Будет ли сервис использоватсья во всем мире?
+> - Бизнесс требования, 
+>   - сколько у нас есть денег?
+>   - сколько мы готовы ждать?
+>   - как долго планируется поддерживать решения?
+> Деградация функциональности, чем можем пожертвовать?
 
 #### Экономим деньги бизнесс
 > [!TIP]
 > — Что за бизнес, $ука?
 > [kizaru ft Барбарики](https://www.youtube.com/watch?v=IzEPJM2WbzM)
 
-- Какова ожидается нагрузка на сервис в месяц (сколько ссылок)?
-
-RPS
-оващеХранилище
 
 
 ### Архитектура сервиса
+#### Общее описание HighLoad решения
+Используется трёх звеньевая архитектура - нужны разные ресурсы сервиса.
+- Фронтенд, первичная валидация и безопасность; защита от
+  - Шифрование
+  - DDoS
+  - Медленные запросы
+  - Буферизация
+  - Обработка ошибок
+  - Кэш
+  - Балансировка
+- Бэкенд — вычисления
+- Система хранения
+#### Технологии
+Vue (Vite + Bun) - прост в использовании/производителен/2 место по полюрности 2023г
+Echo - расширяемый производительный фреймворк с большим кол-вом мидлварей
+Redis - в плане кеша конкуренты отсутствуют (Memcached ограничен, KeyDB ещё в перспективе)
+ClickHouse - аппенд онли дб, высокой производительности, отказоустойчивости и масштабируемости.
+Traefik - opensource reverse-proxy, автаматически дискаверящий сервисы будь то контейнеры или поды
+
 #### DockerCompose Infra
 ![DockerCompose Infra](static/dc-arch.png)
 
@@ -90,7 +115,7 @@ Accept: */*
   "long_url": "<YOUR_URL>"
 }
 
-# Returns OK (200), with the generated short_url in data
+# Returns OK (200), with the generated <SHORT_URL> in data
 ```
 
 ```http request
@@ -112,7 +137,6 @@ erDiagram
 ```
 
 ### Shortening Algorithm
-
 > [!IMPORTANT]
 > shortuuid — generates UUIDs using google/uuid and then translate it to base57 using lowercase and uppercase letters and digits,
 > and removing similar-looking characters such as l, 1, I, O and 0.

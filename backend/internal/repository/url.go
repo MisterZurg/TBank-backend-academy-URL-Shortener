@@ -24,6 +24,9 @@ func (ur *URLRepository) GetURL(shortURL string) (string, error) {
 	ctx := context.Background()
 
 	longURL, err := ur.getFromCache(ctx, shortURL)
+	if longURL != "" {
+		return longURL, nil
+	}
 	if err == redis.Nil {
 		log.Printf("NO IN CACHE")
 
@@ -33,7 +36,6 @@ func (ur *URLRepository) GetURL(shortURL string) (string, error) {
 		}
 	}
 
-	prometheus.GotURLFromDB.Inc()
 	return longURL, nil
 }
 
@@ -43,17 +45,16 @@ func (ur *URLRepository) PostURL(longURL string) (string, error) {
 	ctx := context.Background()
 	log.Printf("got %s", longURL)
 	shortURL = shortuuid.NewWithNamespace(longURL)
-	log.Printf("convSh %s", shortURL)
+
+	// Check In DB or Cache
+	gotURL, _ := ur.GetURL(shortURL)
+	if gotURL == longURL {
+		return shortURL, nil
+	}
+
 	_, err := ur.insertCache(ctx, shortURL, longURL)
 	if err != nil {
 		return "", err
-	}
-
-	gotLongURL, _ := ur.getFromDB(ctx, shortURL)
-	log.Printf("got _%s_", gotLongURL)
-	if gotLongURL != "" {
-		log.Printf("УЖЕ СУЩЕСТВУЕТ %s", shortURL)
-		return shortURL, nil
 	}
 
 	_, err = ur.insertDB(ctx, shortURL, longURL)
@@ -61,6 +62,7 @@ func (ur *URLRepository) PostURL(longURL string) (string, error) {
 		return "", err
 	}
 
+	prometheus.CreateURLS.Inc()
 	return shortURL, nil
 }
 
@@ -92,6 +94,7 @@ func (ur *URLRepository) getFromDB(ctx context.Context, shortURL string) (string
 		}
 	}
 
+	prometheus.GotURLFromDB.Inc()
 	return longURL, nil
 }
 

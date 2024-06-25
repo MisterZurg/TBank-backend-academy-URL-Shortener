@@ -39,11 +39,10 @@ type PostURLResponse struct {
 
 // ShortenURL — ...
 func (s *Service) ShortenURL(c echo.Context) error {
-	prometheus.CreateURLS.Inc()
+	prometheus.TotalOpsProcessed.Inc()
 
 	params := new(PostURLParams)
 	if err := c.Bind(&params); err != nil {
-
 		return c.JSON(http.StatusBadRequest, "SUKA")
 	}
 
@@ -51,6 +50,7 @@ func (s *Service) ShortenURL(c echo.Context) error {
 		prometheus.TotalErrors.Inc()
 		return c.JSON(http.StatusBadRequest, urlerrors.ErrEmptyURL)
 	}
+
 	short, err := s.repo.PostURL(params.LongURL)
 	if err != nil {
 		prometheus.TotalErrors.Inc()
@@ -62,7 +62,7 @@ func (s *Service) ShortenURL(c echo.Context) error {
 
 // GetURL — ...
 func (s *Service) GetURL(c echo.Context) error {
-	prometheus.CreateURLS.Inc()
+	prometheus.TotalOpsProcessed.Inc()
 
 	shorten := c.Param("short_url")
 	if shorten == "" {
@@ -76,5 +76,6 @@ func (s *Service) GetURL(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, urlerrors.ErrCannotFindURL)
 	}
 	// c.Response().Header().Set("HX-Redirect", redirectURL)
+	prometheus.RedirectNum.Inc()
 	return c.Redirect(http.StatusFound, redirectURL)
 }
