@@ -11,6 +11,7 @@ RUN go mod download && go mod verify
 
 # copy app logic
 COPY ../../backend/cmd ./backend/cmd
+COPY ../../backend/docs ./backend/docs
 COPY ../../backend/config ./backend/config
 COPY ../../backend/internal ./backend/internal
 COPY ../../backend/urlerrors ./backend/urlerrors

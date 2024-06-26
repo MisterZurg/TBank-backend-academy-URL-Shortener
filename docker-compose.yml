@@ -87,6 +87,8 @@ services:
   tbank-traefik:
     # The official v3 Traefik docker image
     image: traefik:v3.0
+    labels:
+      - "traefik.http.routers.tbank-grafana.rule=Host(`tbank.traefik.localhost`)"
     # Enables the web UI and tells Traefik to listen to docker
     command: --api.insecure=true --providers.docker
     ports:

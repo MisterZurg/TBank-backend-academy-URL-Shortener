@@ -1,7 +1,7 @@
 ########################################################################
 ### Before Push									      ##
 ########################################################################
-.PHONY: all fmt tidy lint test
+.PHONY: all fmt tidy lint test docs
 all: fmt tidy lint test
 
 fmt:
@@ -16,6 +16,9 @@ lint:
 test:
 	go clean -testcache
 	go test -v ./...
+
+docs:
+	swag init -g ./backend/cmd/main.go -o ./backend/docs
 
 ########################################################################
 ### Docker CumPose Version										      ##

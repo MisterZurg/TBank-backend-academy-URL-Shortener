@@ -55,7 +55,7 @@
 
 ### Архитектура сервиса
 #### Общее описание HighLoad решения
-Используется трёх звеньевая архитектура - нужны разные ресурсы сервиса.
+Используется "трёх" звеньевая архитектура - нужны разные ресурсы сервиса.
 - Фронтенд, первичная валидация и безопасность; защита от
   - Шифрование
   - DDoS
@@ -66,8 +66,33 @@
   - Балансировка
 - Бэкенд — вычисления
 - Система хранения
+
+**Микромонолит**
+
+Плюсы
+- Отсутствие какого-либо оверхеда при коммуникации сервисов.
+
+Минусы
+- Высокая сложность разработки
+- В случае проблемы, встает всё
+- Невозможность вести распределенную разработку
+
+#### Горизонтальное масштабирование/закон Амдала
+Иллюстрирует ограничение роста производительности выислительной системы с увеличением количества вычислителей.
+
+| Разделяемый компонет |  10 вычислителей   |  100 вычислителей   |  1000 вычислителей   |
+|:--------------------:|:------------------:|:-------------------:|:--------------------:|
+|          0%          | Ускорение в 10 раз | Ускорение в 100 раз | Ускорение в 1000 раз |
+|         10%          |        5.3         |         9.2         |         9.9          |
+|         25%          |        3.0         |         3.9         |         4.0          |
+|         40%          |        2.1         |         2.4         |         2.5          |
+
+> Higload Горизонтальное масштабирование
+
 #### Технологии
-Vue (Vite + Bun) - прост в использовании/производителен/2 место по полюрности 2023г
+> [!CAUTION]
+> Vue (Vite + Bun) - прост в использовании/производителен/2 место по полюрности 2023г
+
 Echo - расширяемый производительный фреймворк с большим кол-вом мидлварей
 Redis - в плане кеша конкуренты отсутствуют (Memcached ограничен, KeyDB ещё в перспективе)
 ClickHouse - аппенд онли дб, высокой производительности, отказоустойчивости и масштабируемости.
@@ -92,7 +117,10 @@ make down
 #### K8S Infra
 ![K8s Infra](static/k8s-arch.png)
 > [!WARNING]
-> Kind не может в LoadBalancer
+> Kind не может в External IP
+> [Using MetalLb with Kind](https://mauilion.dev/posts/kind-metallb/)
+> [METALLB](https://metallb.universe.tf/installation/)
+> [MetalLB and NGINX Ingress // Setup External Access for Kubernetes Applications](https://www.youtube.com/watch?v=k8bxtsWe9qw&list=WL)
 
 #### Cloud Infra?
 > [!WARNING]
@@ -157,7 +185,7 @@ erDiagram
 - [goose](https://github.com/pressly/goose) database migration tool
 - [env](https://github.com/caarlos0/env) simple and zero-dependencies library to parse environment variables into structs
 - [shortuuid](https://github.com/lithammer/shortuuid) generates concise, unambiguous, URL-safe UUIDs that are used for shorten urls
-
+- [swaggo](https://github.com/swaggo/swag) automatically generate RESTful API documentation with Swagger 2.0
 
 ### Откуда бралось вдохновение
 - [Олег Бунин Highload](https://www.linkedin.com/in/olegbunin/)

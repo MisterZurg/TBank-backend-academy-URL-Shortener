@@ -37,13 +37,20 @@ type PostURLResponse struct {
 	ShortURL string `json:"short_url,omitempty"`
 }
 
-// ShortenURL — ...
+// ShortenURL — creates short url from given
+//
+// @Summary      Creates short url from given
+// @Description  Creates short url from given
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string
+// @Router       /short-it [post]
 func (s *Service) ShortenURL(c echo.Context) error {
 	prometheus.TotalOpsProcessed.Inc()
 
 	params := new(PostURLParams)
 	if err := c.Bind(&params); err != nil {
-		return c.JSON(http.StatusBadRequest, "SUKA")
+		return c.JSON(http.StatusBadRequest, "----")
 	}
 
 	if params.LongURL == "" {
@@ -60,7 +67,18 @@ func (s *Service) ShortenURL(c echo.Context) error {
 	return c.String(http.StatusOK, short)
 }
 
-// GetURL — ...
+// GetURL — redirects user to short url
+//
+// @Summary      Redirects user
+// @Description  Redirects user
+// @Tags         accounts
+// @Accept       json
+// @Produce      json
+// @Param        short_url   path    string  true  "short_url"
+// @Success      302  {string}  string
+// @Failure      400  {object}  urlerrors.Error
+// @Failure      404  {object}  urlerrors.Error
+// @Router       /short-it/{short_url} [get]
 func (s *Service) GetURL(c echo.Context) error {
 	prometheus.TotalOpsProcessed.Inc()
 
