@@ -1,0 +1,53 @@
+definitions:
+  urlerrors.Error:
+    properties:
+      desc:
+        type: string
+      err: {}
+    type: object
+info:
+  contact: {}
+paths:
+  /accounts/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Creates short url from given
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Creates short url from given
+  /short-it/{short_url}:
+    get:
+      consumes:
+      - application/json
+      description: Redirects user
+      parameters:
+      - description: short_url
+        in: path
+        name: short_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "302":
+          description: Found
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/urlerrors.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/urlerrors.Error'
+      summary: Redirects user
+      tags:
+      - accounts
+swagger: "2.0"

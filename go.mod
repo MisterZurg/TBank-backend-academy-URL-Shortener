@@ -14,7 +14,6 @@ require (
 	github.com/redis/go-redis/v9 v9.5.3
 	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/echo-swagger v1.4.1
-	github.com/swaggo/files v1.0.1
 	github.com/swaggo/swag v1.8.12
 )
 
