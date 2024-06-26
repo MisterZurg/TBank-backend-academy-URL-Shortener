@@ -35,8 +35,28 @@ Host: localhost:1323
 Content-Type: application/json
 Accept: */*
 
+### Traefik
+POST tbank.urlshortener.localhost:1323/short-it HTTP/1.1
+Host: tbank.urlshortener.localhost
+Content-Type: application/json
+Accept: */*
 
+{
+  "long_url": "https://doc.traefik.io/traefik/getting-started/quick-start/"
+}
+
+###
+GET tbank.urlshortener.localhost:1323/short-it/udnhjZbHR6iB5x3wdsfJ6B HTTP/1.1
+Host: tbank.urlshortener.localhost:1323
+Content-Type: application/json
+Accept: */*
 
 ###################################################################################
 ### How does picking up a Kubernetes cluster help me pick up a Kubernetes cluster?
 ###################################################################################
+
+
+GET localhost:1323/hello-world HTTP/1.1
+Host: localhost
+Content-Type: application/json
+Accept: */*

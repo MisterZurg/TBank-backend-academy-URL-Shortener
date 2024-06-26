@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: t-bank-url-shortener-app
+  name: t-bank-url-shortener-app
+  namespace: t-bank-url-shortener
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: t-bank-url-shortener-app
+  template:
+    metadata:
+      labels:
+        app: t-bank-url-shortener-app
+    spec:
+      containers:
+        - image: misterzurg/tbank_k8s:0.1.0
+          name: library
+          resources: {}
+          env:
+            - name: APP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-url-shortener-cm
+                  key: app_port
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-url-shortener-cm
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-url-shortener-cm
+                  key: redis_port
+            - name: CLICKHOUSE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-url-shortener-cm
+                  key: ch_host
+            - name: CLICKHOUSE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-url-shortener-cm
+                  key: ch_port
+

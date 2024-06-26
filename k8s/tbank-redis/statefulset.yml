@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: t-bank-storage
+spec:
+  serviceName: "redis"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis      # has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: redis    # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+        - name: redis
+          image: redis:alpine
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-redis-cm
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: t-bank-redis-cm
+                  key: redis_port
+          ports:
+            - name: redis
+              containerPort: 6379
+          volumeMounts:
+            - name: t-bank-redis-pvc
+              mountPath: /data
+      volumes:
+        - name: t-bank-redis-pvc
+          persistentVolumeClaim:
+            claimName: my-t-bank-redis-pvc
+...

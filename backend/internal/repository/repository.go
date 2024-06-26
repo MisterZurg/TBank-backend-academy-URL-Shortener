@@ -48,7 +48,7 @@ func New(rcfg Config) (*Repository, error) {
 		},
 	})
 	if err != nil {
-		log.Printf("cannot ping cache, got err %v", err)
+		log.Printf("cannot shit into db, got err %v", err)
 	}
 
 	if errPingDB := ch.Ping(ctx); errPingDB != nil { //nolint:staticcheck

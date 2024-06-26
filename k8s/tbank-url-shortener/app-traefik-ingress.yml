@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: t-bank-url-shortener-app-ingress
+  namespace: t-bank-url-shortener
+
+spec:
+  rules:
+    - host: "tbank.oleg"
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api-svc # your-service-name
+                port:
+                  number: 1323
+  # (Optional) TLS settings
+  # tls:
+  # - hosts:
+  #   - your-hostname.com  # Your hostname
+  #   secretName: your-secret  # Your TLS Secret
+  # ---

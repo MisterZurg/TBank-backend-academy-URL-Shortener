@@ -3,6 +3,9 @@ services:
   # I have no clue, but https://medium.com/@SabujJanaCodes/hands-on-haproxy-loadbalancing-with-go-and-docker-compose-part-1-71ce6551f601
   tbank-url-shortener:
     container_name: tbank-url-shortener
+    # Traefik Detects New Services and Creates the Route for You
+    labels:
+      - "traefik.http.routers.tbank-url-shortener.rule=Host(`tbank.urlshortener.localhost`)"
     build:
       dockerfile: ./build/backend/Dockerfile
     #    image: # tbank_url_shortener:0.1.0
@@ -14,7 +17,7 @@ services:
       CLICKHOUSE_PASSWORD: "tinkoff"
       CLICKHOUSE_DB: "tbank_academy"
       CLICKHOUSE_HOST: "tbank-clickhouse"
-      CLICKHOUSE_PORT: "19000"
+      CLICKHOUSE_PORT: "9000"
     ports:
       - "1323:1323"
     expose:
@@ -71,6 +74,8 @@ services:
   tbank-grafana:
     image: grafana/grafana-oss:latest
     container_name: tbank-grafana
+    labels:
+      - "traefik.http.routers.tbank-grafana.rule=Host(`tbank.grafana.localhost`)"
     ports:
       - "3000:3000"
     networks:
@@ -79,6 +84,21 @@ services:
       - "./build/grafana/provisioning/:/etc/grafana/provisioning/"
     # restart: unless-stopped
 
+  tbank-traefik:
+    # The official v3 Traefik docker image
+    image: traefik:v3.0
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - tbank-network
 
 networks:
   tbank-network:
